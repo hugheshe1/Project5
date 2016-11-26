@@ -1,12 +1,12 @@
 ﻿//	Project:		Project 5 - BTree
 //	File Name:		BTree.cs
-//	Description:	
+//	Description:	A BTree class for creating and handling function for a new BTree
 //	Course:			CSCI 2210-001 - Data Structures
 //	Authors:		Reed Jackson, reedejackson@gmail.com, jacksonre@etsu.edu
 //                  Haley Hughes, hugheshe1@etsu.edu
 //                  Other Author
 //	Created:		11/23/2016
-//	Copyright:		Reed Jackson, Author, Author, 2016
+//	Copyright:		Reed Jackson, Haley Hughes, Author, 2016
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,9 @@ using static System.Console;
 
 namespace Project5
 {
+    /// <summary>
+    /// A BTree class for creating and handling functions for a new BTree
+    /// </summary>
     class BTree
     {
         #region Properties
@@ -46,7 +49,10 @@ namespace Project5
         #endregion
 
         #region Constructors
-
+        /// <summary>
+        /// Parameterized constructor for BTree class
+        /// </summary>
+        /// <param name="arity">Represents the arity of the BTree</param>
         public BTree(int arity)
         {
             NodeSize = arity;
@@ -66,6 +72,11 @@ namespace Project5
 
         #region Add a value to the Tree
 
+        /// <summary>
+        /// Method for adding a value to the BTree
+        /// </summary>
+        /// <param name="value">Represents the value to be added</param>
+        /// <returns>Boolean representing if the value was added successfully or not</returns>
         public bool AddedValue(int value)
         {
             #region Initialize first value and Root
@@ -130,9 +141,14 @@ namespace Project5
         }
 
         #endregion
-        
+
         #region Finding Nodes on Tree Methods
 
+        /// <summary>
+        /// Method for finding the leaf in the BTree where a specified value is stored
+        /// </summary>
+        /// <param name="value">The specified value to search for</param>
+        /// <returns>The Leaf that contains the specified value</returns>
         public Leaf FindLeaf(int value)
         {
             //Initialize starting point
@@ -172,6 +188,11 @@ namespace Project5
             return SearchIndex.LeafList[SearchIndex.LeafList.Count - 1];
         }
 
+        /// <summary>
+        /// Method for finding the Index where a specified value is stored
+        /// </summary>
+        /// <param name="SearchIndex">The specified Index</param>
+        /// <param name="value">The specified value</param>
         public Index FindIndex(Index SearchIndex, int value)
         {
             for (int i = 1; i < SearchIndex.IndexList.Count; i++)
@@ -192,6 +213,10 @@ namespace Project5
 
         #region Splitting Nodes on Tree Methods
 
+        /// <summary>
+        /// Method for splitting a leaf and then adding to correct place in BTree
+        /// </summary>
+        /// <param name="FullLeaf">Represents the leaf to be split</param>
         public void SplitLeaf(Leaf FullLeaf)
         {
             //Initialize values
@@ -224,6 +249,9 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// Method splitting an index and adding it to the BTree
+        /// </summary>
         public void SplitIndex()
         {
             if(MainStack.Peek().Items.Count <= NodeSize)
@@ -401,6 +429,9 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// Method for increasing the levels of the BTree
+        /// </summary>
         public void IncrementAllTreeLevels()
         {
             for (int i = 0; i < TreeIndexs.Count; i++)
@@ -412,6 +443,10 @@ namespace Project5
         #endregion
 
         #region Find Tree Depth Method
+        /// <summary>
+        /// Method for determining the depth of the BTree
+        /// </summary>
+        /// <returns>Int representing the depth of the BTree</returns>
         public int FindDepth()
         {
             int depth = 0;
@@ -427,7 +462,10 @@ namespace Project5
         #endregion
 
         #region Displaying Methods
-
+        /// <summary>
+        /// Method for traversing the BTree by a given index
+        /// </summary>
+        /// <param name="SearchIndex">Represents the Index</param>
         public void PreOrderTraversal(Index SearchIndex)
         {
             for (int i = 0; i < SearchIndex.IndexList.Count; i++)
@@ -448,6 +486,10 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// Method for retrieving a List of contents within BTree
+        /// </summary>
+        /// <returns>List of strings representing information for each item in BTree</returns>
         public List<string> DisplayTree()
         {
             //Clear PreOrder
@@ -462,6 +504,10 @@ namespace Project5
             return PreOrder;
         }
 
+        /// <summary>
+        /// Method for displaying BTree statistics
+        /// </summary>
+        /// <returns>String representing BTree statistics</returns>
         public string Stats()
         {
             string stats = "";
@@ -472,22 +518,43 @@ namespace Project5
             return stats;
         }
 
-        #endregion
+        /// <summary>
+        /// Method for displaying each node in the BTree
+        /// </summary>
+        /// <param name="node">Represents the node in the BTree</param>
+        public void display(Node node)
+        {
+            if (node == null)
+                return;
 
-        //Need Display Method
-        //...Search For Node method(Base off FindLeaf Method)
-        //...Need Stats Method
-        //...Need to implement counts
+            if (node is Leaf)
+            {
+                //display the values of the leaf
+                Console.WriteLine((Leaf)node);
+                // end this call
+                return;
+            }
 
-        //Idea for display: put tree sideways
-        //       Root
-        //Level: 0          1           2           3
-        //              
-        //                              *, 150, 300
-        //                  *, 150
-        //       *, 100
-        //                  *, 75
-        //                              
-        //Or Put top down   
+            if (node is Index)
+            {
+                Console.WriteLine((Index)node);
+
+                // checking if the index has a list of indexes (that is, it doesn't point to leaves)
+                if (((Index)node).IndexList != null)
+                {
+                    //iterate over each index in the node
+                    foreach (Index i in ((Index)node).IndexList)
+                        display(node);
+                }
+                else
+                {
+                    //display the leaves
+                    foreach (Leaf l in ((Index)node).LeafList)
+                        display(node);
+                }
+            }
+        }
+
+        #endregion 
     }
 }

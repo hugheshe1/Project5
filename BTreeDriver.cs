@@ -17,6 +17,9 @@ using static System.Console;
 
 namespace Project5
 {
+    /// <summary>
+    /// A driver class for displaying BTree information and handling functions
+    /// </summary>
     class BTreeDriver
     {
 
@@ -25,9 +28,13 @@ namespace Project5
         private static string Menu = string.Empty;
         private static int selection = 0;
         private static int response = 0;
-        private static BTree tree; 
+        private static BTree tree;
         #endregion
 
+        #region Main Method
+        /// <summary>
+        /// Main method for the BTreeDriver class which is used for handling method calls for menu and BTree functionality
+        /// </summary>
         static void Main()
         {
             ConsoleStartUp();
@@ -101,8 +108,9 @@ namespace Project5
 
             WriteLine("Enter node to display");
             string nodeStr = ReadLine();
-           
-        }
+
+        } 
+        #endregion
 
         #region Console Edit
 
