@@ -3,7 +3,7 @@
 //	Description:	
 //	Course:			CSCI 2210-001 - Data Structures
 //	Authors:		Reed Jackson, reedejackson@gmail.com, jacksonre@etsu.edu
-//                  Other Author
+//                  Haley Hughes, hugheshe1@etsu.edu
 //                  Other Author
 //	Created:		11/23/2016
 //	Copyright:		Reed Jackson, Author, Author, 2016
@@ -212,6 +212,8 @@ namespace Project5
                 FullLeaf.Items.RemoveAt(half);
             }
 
+            Index Temp = new Index(MainStack.Peek());
+
             MainStack.Peek().Items.Add(newIndexValue);
             MainStack.Peek().LeafList.Add(NewLeaf);
 
@@ -409,6 +411,21 @@ namespace Project5
 
         #endregion
 
+        #region Find Tree Depth Method
+        public int FindDepth()
+        {
+            int depth = 0;
+
+            foreach (Index i in TreeIndexs)
+            {
+                if (i.IndexLevel > depth)
+                    depth = i.IndexLevel;
+            }
+        
+            return depth;
+        }
+        #endregion
+
         #region Displaying Methods
 
         public void PreOrderTraversal(Index SearchIndex)
@@ -418,13 +435,15 @@ namespace Project5
                 //Add Next String
                 PreOrder.Add(SearchIndex.IndexList[i].ToString());
 
-                //Add to Index Stack
-                PreOrderStack.Push(SearchIndex.IndexList[i]);
-
-                if (SearchIndex.IndexList[i] != null)
+                if (SearchIndex.IndexList.Count == 0)
                 {
                     //Step down to sub tree
-                    PreOrderTraversal(SearchIndex.IndexList[i]); 
+                    PreOrderTraversal(SearchIndex.IndexList[i]);
+                }
+                else
+                {
+                    for (int j = 0; j < SearchIndex.LeafList.Count; j++)
+                        PreOrder.Add(SearchIndex.LeafList[j].ToString());
                 }
             }
         }
@@ -446,6 +465,10 @@ namespace Project5
         public string Stats()
         {
             string stats = "";
+            stats += $"Number of Index Nodes: {IndexCount}";
+            stats += $"\nNumber of Lead Nodes: {LeafCount}";
+            stats += $"\nThe depth of the tree is {FindDepth()}";
+            stats += $"\nTotal number of values in the tree: {NodeCount}";
             return stats;
         }
 
