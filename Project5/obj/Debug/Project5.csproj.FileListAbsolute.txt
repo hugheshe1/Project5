@@ -1,0 +1,8 @@
+\\etsulab1\users\jacksonre\my documents\visual studio 2015\Projects\Project5\Project5\bin\Debug\Project5.exe.config
+E:\Project5\Project5\bin\Debug\Project5.exe.config
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\bin\Debug\Project5.exe.config
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\bin\Debug\Project5.exe
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\bin\Debug\Project5.pdb
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\obj\Debug\Project5.csprojResolveAssemblyReference.cache
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\obj\Debug\Project5.exe
+E:\Game Design and Coding\Programming\Visual Studio\Project5\Project5\obj\Debug\Project5.pdb
