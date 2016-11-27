@@ -442,7 +442,7 @@ namespace Project5
 
         #endregion
 
-        #region Find Tree Depth Method
+        #region Find Depth and Number of Values
         /// <summary>
         /// Method for determining the depth of the BTree
         /// </summary>
@@ -459,6 +459,22 @@ namespace Project5
         
             return depth;
         }
+
+        public int TotalNumValues ( )
+        {
+            int values = 0;
+
+            // number of indexes
+            values += IndexCount;
+
+            // adding number of values present in each leaf
+            foreach (Leaf l in TreeLeaves)
+            {
+                values += l.Items.Count;
+            }
+
+            return values;
+        }
         #endregion
 
         #region Displaying Methods
@@ -466,6 +482,11 @@ namespace Project5
         /// Method for traversing the BTree by a given index
         /// </summary>
         /// <param name="SearchIndex">Represents the Index</param>
+
+
+        /* Commenting this out since the preorder traversal seems to be a display method in his program, so I wrote one that does that
+         * 
+         * 
         public void PreOrderTraversal(Index SearchIndex)
         {
             for (int i = 0; i < SearchIndex.IndexList.Count; i++)
@@ -482,6 +503,46 @@ namespace Project5
                 {
                     for (int j = 0; j < SearchIndex.LeafList.Count; j++)
                         PreOrder.Add(SearchIndex.LeafList[j].ToString());
+                }
+            }
+        }
+
+        */
+
+        /// <summary>
+        /// Recursive method to look over the tree in pre-order and to display each node reached
+        /// </summary>
+        /// <param name="node">The node to start at, should be the root</param>
+        public void PreorderDisplay (Node node)
+        {
+            if (node == null)
+                // Nothing to do when there are no nodes in the B tree
+                return;
+
+            if (node is Leaf)
+            {
+                //show the values in the leaf
+                Console.WriteLine ((Leaf)node);
+                // end this call
+                return;
+            }
+
+            if (node is Index)
+            {
+                Console.WriteLine ((Index)node);
+
+                // checking if the index has a list of indexes (that is, if it doesn't point to leaves)
+                if (((Index)node).IndexList != null)
+                {
+                    //recursively calling for each element of the index list
+                    foreach (Index i in ((Index)node).IndexList)
+                        PreorderDisplay (node);
+                }
+                else
+                {
+                    //recursively calling the method for each element of the leaf list
+                    foreach (Leaf l in ((Index)node).LeafList)
+                        PreorderDisplay (node);
                 }
             }
         }
