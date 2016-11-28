@@ -22,7 +22,6 @@ namespace Project5
     /// </summary>
     class BTreeDriver
     {
-
         #region Properties
         private static Random rand = new Random();
         private static string Menu = string.Empty;
@@ -34,6 +33,7 @@ namespace Project5
         #endregion
 
         #region Main Method
+
         /// <summary>
         /// Main method for the BTreeDriver class which is used for handling method calls for menu and BTree functionality
         /// </summary>
@@ -114,6 +114,7 @@ namespace Project5
                 }
             }
         } 
+        
         #endregion
 
         #region Console Edit
@@ -152,6 +153,7 @@ namespace Project5
         #endregion
 
         #region Menu
+
         /// <summary>
         /// Menu method to display menu options to user
         /// </summary>
@@ -181,9 +183,11 @@ namespace Project5
             }
            
         }
+
         #endregion
 
         #region Fill Tree Method
+
         /// <summary>
         /// Method for filling a BTree with values
         /// </summary>
@@ -209,6 +213,7 @@ namespace Project5
                 }
             }
         }
+
         #endregion
     }
 }

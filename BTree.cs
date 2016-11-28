@@ -365,9 +365,6 @@ namespace Project5
 
                     #endregion
 
-                    //Set Right Index Level
-                    RightIndex.IndexLevel = CurrentIndex.IndexLevel;
-
                     //Dispose values
                     int disposeCount = CurrentIndex.Items.Count;
                     for (int i = half; i < disposeCount; i++)
@@ -383,8 +380,14 @@ namespace Project5
                         }
                     }
 
-                    //Set Left Index and reference to CenterIndex
+                    //Set Left Index
                     LeftIndex = new Index(CurrentIndex);
+
+                    //Set Right Index Level
+                    RightIndex.IndexLevel = CurrentIndex.IndexLevel + 1;
+                    LeftIndex.IndexLevel = CurrentIndex.IndexLevel + 1;
+
+                    //Reference to CenterIndex
                     CenterIndex.IndexList.Add(LeftIndex);
                     CenterIndex.IndexList.Add(RightIndex);
 
@@ -393,7 +396,7 @@ namespace Project5
                     Root = new Index(CenterIndex);
 
                     //Set Index Levels
-                    IncrementAllTreeLevels();
+                    IncrementAllTreeLevels(Root);
                     CenterIndex.IndexLevel = 0;
                 }
 
@@ -441,7 +444,7 @@ namespace Project5
                     #endregion
 
                     //Set Right Index Level
-                    RightIndex.IndexLevel = CurrentIndex.IndexLevel;
+                    RightIndex.IndexLevel = CurrentIndex.IndexLevel + 1;
 
                     //Dispose values
                     int disposeCount = CurrentIndex.Items.Count;
@@ -471,20 +474,38 @@ namespace Project5
             }
         }
 
+        //Fix IncrementAllTreeLevels
+
         /// <summary>
         /// Method for increasing the levels of the BTree
         /// </summary>
-        public void IncrementAllTreeLevels()
+        public void IncrementAllTreeLevels(Index SearchIndex)
         {
-            for (int i = 0; i < TreeIndexs.Count; i++)
+            
+
+            for (int i = 0; i < SearchIndex.IndexList.Count; i++)
             {
-                TreeIndexs[i].IndexLevel++;
+                //Add Next String
+                PreOrder.Add(SearchIndex.IndexList[i].ToString());
+
+                if (SearchIndex.IndexList.Count > 0)
+                {
+                    //Step down to sub tree
+                    PreOrderTraversal(SearchIndex.IndexList[i]);
+                }
+                else
+                {
+                    //Display all Leaves
+                    for (int j = 0; j < SearchIndex.LeafList.Count; j++)
+                        PreOrder.Add(SearchIndex.LeafList[j].ToString());
+                }
             }
         }
 
         #endregion
 
         #region Find Depth and Number of Values
+
         /// <summary>
         /// Method for determining the depth of the BTree
         /// </summary>
@@ -517,6 +538,7 @@ namespace Project5
 
             return values;
         }
+
         #endregion
 
         #region Displaying Methods
@@ -533,7 +555,7 @@ namespace Project5
                 //Add Next String
                 PreOrder.Add(SearchIndex.IndexList[i].ToString());
 
-                if (SearchIndex.IndexList.Count == 0)
+                if (SearchIndex.IndexList.Count > 0)
                 {
                     //Step down to sub tree
                     PreOrderTraversal(SearchIndex.IndexList[i]);

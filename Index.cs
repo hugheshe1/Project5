@@ -137,6 +137,7 @@ namespace Project5
         public override string ToString()
         {
             string result = "\n\nNode type: Index";
+            result += $"\nNode Level: {IndexLevel}";
             result += base.ToString();
             foreach (int i in Items)
                 result += (i + " ");
