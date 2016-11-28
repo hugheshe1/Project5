@@ -1,46 +1,33 @@
 ﻿//	Project:		Project 5 - BTree
 //	File Name:		Leaf.cs
-//	Description:	A Leaf class (subclass of Node) that stores leaf information and its functionality
+//	Description:	
 //	Course:			CSCI 2210-001 - Data Structures
 //	Authors:		Reed Jackson, reedejackson@gmail.com, jacksonre@etsu.edu
-//                  Haley Hughes, hugheshe1@etsu.edu
+//                  Other Author
 //                  Other Author
 //	Created:		11/23/2016
-//	Copyright:		Reed Jackson, Haley Hughes, Author, 2016
+//	Copyright:		Reed Jackson, Author, Author, 2016
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Project5
 {
-    /// <summary>
-    /// A Leaf class (subclass of Node) that stores leaf information and its functionality
-    /// </summary>
     class Leaf : Node
     {
         #region Constructors
 
-        /// <summary>
-        /// Default constructor for the creation of a Leaf object
-        /// </summary>
         public Leaf() { }
 
-        /// <summary>
-        /// Parameterized constructor for the creation of a Leaf object
-        /// </summary>
-        /// <param name="nodeSize">Represents the desired node size</param>
         public Leaf(int nodeSize)
         {
             NodeSize = nodeSize;
         }
 
-        /// <summary>
-        /// Parameterized constructor for the creation of a Leaf object
-        /// </summary>
-        /// <param name="CopyLeaf">Represents the desired Leaf</param>
         public Leaf(Leaf CopyLeaf)
         {
             NodeSize = CopyLeaf.NodeSize;
@@ -51,11 +38,6 @@ namespace Project5
 
         #region Insertion Methods
 
-        /// <summary>
-        /// Method for inserting a value into a leaf
-        /// </summary>
-        /// <param name="value">Represents the value to be inserted</param>
-        /// <returns>Insertion status</returns>
         public INSERT Insert(int value)
         {
             if (Items.Count == 0)
@@ -108,6 +90,26 @@ namespace Project5
             }
         }
 
+        #endregion
+
+
+        /// <summary>
+        /// ToString override for Leaf
+        /// </summary>
+        /// <returns>info, a string containing the relevant information pertaining to the leaf</returns>
+        #region ToString
+        public override String ToString()
+        {
+            String info = "\n\nNode type: Leaf";
+            info += ("\nNumber of values: " + Items.Count + " (Node is " + ((Items.Count/NodeSize)*100) +
+                    " percent full)");
+            info += "\nValues: ";
+
+            foreach (int i in Items)
+                info += ("\n" + i + " ");
+
+            return info;
+        }
         #endregion
     }
 }
