@@ -29,6 +29,8 @@ namespace Project5
         private static int selection = 0;
         private static int response = 0;
         private static BTree tree;
+        private static int totalAdded = 0;
+        private static int totalAddAttempts = 0;
         #endregion
 
         #region Main Method
@@ -51,34 +53,48 @@ namespace Project5
                     {
                         case 1:
                             Clear();
-                            Console.Write("What is the arity of the tree to be created? ");
-                            response = Convert.ToInt16(Console.ReadLine());
+                            Write("What is the arity of the tree to be created? ");
+                            response = Convert.ToInt16(ReadLine());
                             tree = new BTree(response);
-
-                            Console.WriteLine($"The tree has been built; ___ values were added in ___ loops.");
-                            Console.WriteLine("\n\n\n\nPress any key to continue...");
-                            Console.ReadKey();
+                            FillTree();
+                            WriteLine($"The tree has been built; {totalAdded} values were added in {totalAddAttempts} loops.");
+                            WriteLine("\n\n\n\nPress any key to continue...");
+                            ReadKey();
                             break;
                         case 2:
-                            tree.DisplayTree();
-                            Console.ReadKey();
+                            Clear();
+                            if (tree != null)
+                            {
+                                tree.DisplayTree();
+                                WriteLine(tree.Stats());
+                                ReadKey();
+                            }                          
                             break;
                         case 3:
-                            Console.WriteLine("What value do you want to add to the tree? ");
-                            response = Convert.ToInt16(Console.ReadLine());
+                            WriteLine("What value do you want to add to the tree? ");
+                            response = Convert.ToInt16(ReadLine());
 
                             tree.AddedValue(response);
 
-                            Console.WriteLine($"{response} was added to the tree.");
-                            Console.WriteLine("\n\n\n\nPress any key to continue...");
-                            Console.ReadKey();
+                            WriteLine($"{response} was added to the tree.");
+                            WriteLine("\n\n\n\nPress any key to continue...");
+                            ReadKey();
                             break;
                         case 4:
-                            Console.WriteLine("What value do you want to find? ");
-                            response = Convert.ToInt16(Console.ReadLine());
+                            WriteLine("What value do you want to find? ");
+                            response = Convert.ToInt16(ReadLine());
+                            Leaf leaf = null;
+                            bool match = tree.FindValue(response, out leaf);
 
-                            //implement find value method
+                            Clear();
 
+                            if (match)
+                                WriteLine($"{response} was found in the tree.");
+                            else
+                                WriteLine($"{response} was not found in the tree.");
+
+                            WriteLine("\n\n\n\nPress any key to continue...");
+                            ReadKey();
                             break;
                         case 5:
                             break;
@@ -86,29 +102,10 @@ namespace Project5
                 }
                 catch (Exception e)
                 {
-                    Console.Clear();
-                    Console.WriteLine(e.Message);
+                    Clear();
+                    WriteLine(e.Message);
                 }
             }
-
-            //Set arity and create B-Tree
-            //User set arity
-            int arity = 3;
-            BTree userTree = new BTree(arity);
-
-            bool getNextValue = false;
-            for (int i = 1; i < 20; i++) //20 = 500
-            {
-                while (getNextValue == false)
-                {
-                    getNextValue = userTree.AddedValue(rand.Next(100)); //0 - 9999
-                }
-                getNextValue = false;
-            }
-
-            WriteLine("Enter node to display");
-            string nodeStr = ReadLine();
-
         } 
         #endregion
 
@@ -165,17 +162,45 @@ namespace Project5
                 + "\n5. End the Program"
                 + "\n\n Type the number of your choice from the menu: ";
 
-            Console.WriteLine(Menu);
-            response = Console.ReadLine();
+            WriteLine(Menu);
+            response = ReadLine();
 
             IsValid = int.TryParse(response, out selection);
 
             if (!IsValid || selection > 5 || selection <= 0)
             {
-                Console.WriteLine("Invalid Entry");
+                WriteLine("Invalid Entry");
                 MenuDialog();
             }
            
+        }
+        #endregion
+
+        #region Fill Tree Method
+        /// <summary>
+        /// Method for filling a BTree with values
+        /// </summary>
+        private static void FillTree()
+        {
+            bool success;
+
+            if (tree == null)
+                WriteLine("A tree has not yet been created.");
+            else
+            {
+                while (totalAdded < 20)
+                {
+                    success = tree.AddedValue(rand.Next(100));
+
+                    if (success)
+                    {
+                        totalAdded++;
+                        totalAddAttempts++;
+                    }
+                    else
+                        totalAddAttempts++;
+                }
+            }
         }
         #endregion
     }

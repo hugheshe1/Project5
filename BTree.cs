@@ -58,6 +58,7 @@ namespace Project5
             NodeSize = arity;
             Root = new Index();
             TreeIndexs = new List<Index>();
+            TreeLeaves = new List<Leaf>();
             MainStack = new Stack<Index>();
             PreOrderStack = new Stack<Index>();
 
@@ -209,6 +210,29 @@ namespace Project5
             return SearchIndex.IndexList[NodeSize - 1];
         }
 
+        #endregion
+
+        #region Find Value Method
+        /// <summary>
+        /// Method to determine if a specified value exists in the BTree
+        /// </summary>
+        /// <param name="value">The specified value to be searched for</param>
+        /// <returns>A boolean that represents if the value was located within the BTree</returns>
+        public bool FindValue(int value, out Leaf match)
+        {
+            Leaf leaf = FindLeaf(value);
+
+            if (leaf.Items.Contains(value))
+            {
+                match = leaf;
+                return true;
+            }
+            else
+            {
+                match = null;
+                return false;
+            }
+        }
         #endregion
 
         #region Splitting Nodes on Tree Methods
@@ -554,12 +578,12 @@ namespace Project5
         public List<string> DisplayTree()
         {
             //Clear PreOrder
-            PreOrder.Clear();
+            //PreOrder.Clear();
             
-            //Start PreOrder at Root
-            PreOrder.Add(Root.ToString());
-            PreOrderStack.Push(Root);
-            PreOrderTraversal(Root);
+            ////Start PreOrder at Root
+            //PreOrder.Add(Root.ToString());
+            //PreOrderStack.Push(Root);
+            PreorderDisplay(Root);
 
             //Return List of index strings
             return PreOrder;
@@ -573,7 +597,7 @@ namespace Project5
         {
             string stats = "";
             stats += $"Number of Index Nodes: {IndexCount}";
-            stats += $"\nNumber of Lead Nodes: {LeafCount}";
+            stats += $"\nNumber of Leaf Nodes: {LeafCount}";
             stats += $"\nThe depth of the tree is {FindDepth()}";
             stats += $"\nTotal number of values in the tree: {NodeCount}";
             return stats;
