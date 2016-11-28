@@ -74,6 +74,33 @@ namespace Project5
         /// Method for inserting a value
         /// </summary>
         /// <param name="value">Represents value to be added</param>
+        /// <returns>position for the leaves in the leaf list to be switched with</returns>
+        public void Insert(int value, Leaf NewLeaf)
+        {
+            //Initial Values
+            int i;
+            Items.Add(value);
+            LeafList.Add(NewLeaf);
+
+            //Position value to the smallest place it 
+            //can go
+            for (i = Items.Count - 1; (i > 0 && value <= Items[i - 1]); i--)
+            {
+                Items[i] = Items[i - 1];
+
+                //Position the matching Leaf List
+                LeafList[i] = LeafList[i - 1];
+            }
+
+            //Insert the value to the selected position
+            Items[i] = value;
+            LeafList[i] = NewLeaf;
+        }
+
+        /// <summary>
+        /// Method for inserting a value
+        /// </summary>
+        /// <param name="value">Represents value to be added</param>
         /// <param name="LeftIndex">Represents left index</param>
         /// <param name="RightIndex">Represents right index</param>
         public void Insert(int value, Index LeftIndex, Index RightIndex)
@@ -82,7 +109,7 @@ namespace Project5
             int i;
             Items.Add(value);
 
-            //Position temp to the smallest place it 
+            //Position values to the smallest place it 
             //can go
             for (i = Items.Count - 1; (i > 0 && value <= Items[i - 1]); i--)
             {
@@ -109,24 +136,11 @@ namespace Project5
         /// <returns>String representing index information</returns>
         public override string ToString()
         {
-            string result = base.ToString();
-            result += $"\nIndex Level: {IndexLevel}";
-            if (IndexList.Count > 0)
-            {
-                result += $"\nIndexes Pointed to:\n\t";
-                for (int i = 0; i < IndexList.Count; i++)
-                {
-                    result += $"{IndexList[i] }";
-                }
-            }
-            if (LeafList.Count > 0)
-            {
-                result += $"\nLeaves Pointed to:\n\t";
-                for (int i = 0; i < LeafList.Count; i++)
-                {
-                    result += $"{LeafList[i] }";
-                }
-            }
+            string result = "\n\nNode type: Index";
+            result += base.ToString();
+            foreach (int i in Items)
+                result += (i + " ");
+
             return result;
         }
 

@@ -65,7 +65,14 @@ namespace Project5
                             Clear();
                             if (tree != null)
                             {
-                                tree.DisplayTree();
+                                List<string> Output = tree.DisplayTree();
+                                for (int i = 0; i < Output.Count; i++)
+                                {
+                                    WriteLine($"\n{Output[i]}");
+                                    ReadKey();
+                                    WriteLine("===============================================");
+                                }
+                                //tree.DisplayTree();
                                 WriteLine(tree.Stats());
                                 ReadKey();
                             }                          
@@ -182,13 +189,13 @@ namespace Project5
         /// </summary>
         private static void FillTree()
         {
-            bool success;
+            bool success = false;
 
             if (tree == null)
                 WriteLine("A tree has not yet been created.");
             else
             {
-                while (totalAdded < 20)
+                while (totalAdded < 25)
                 {
                     success = tree.AddedValue(rand.Next(100));
 

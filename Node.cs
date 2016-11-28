@@ -58,6 +58,7 @@ namespace Project5
         #endregion
 
         #region ToString
+
         /// <summary>
         /// Overridden ToString method used to display node information
         /// </summary>
@@ -65,12 +66,8 @@ namespace Project5
         public override string ToString()
         {
             string result = "";
-            result += $"Node Size: {Items.Count} out of {NodeSize}\n" + 
-                      $"Item List:\n\t";
-            for (int i = 0; i < Items.Count; i++)
-            {
-                result += $"{Items[i]} ";
-            }
+            result += $"\nNumber of values: {Items.Count} Node is {String.Format("{0:0.##}", (((double)Items.Count / NodeSize) * 100))} percent full";
+            result += "\nValues:\n";
             return result;
         }
 

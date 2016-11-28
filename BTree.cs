@@ -60,7 +60,7 @@ namespace Project5
             TreeIndexs = new List<Index>();
             TreeLeaves = new List<Leaf>();
             MainStack = new Stack<Index>();
-            PreOrderStack = new Stack<Index>();
+            PreOrder = new List<string>();
 
             //Initialize counts
             NodeCount = 0;
@@ -108,6 +108,7 @@ namespace Project5
                 NodeCount++;
                 IndexCount++;
                 LeafCount++;
+
                 return true;
             }
 
@@ -181,7 +182,7 @@ namespace Project5
             {
                 if (value < SearchIndex.Items[i])
                 {
-                    return SearchIndex.LeafList[i];
+                    return SearchIndex.LeafList[i - 1];
                 }
             }
 
@@ -260,11 +261,12 @@ namespace Project5
                 //Then remove them from the FullLeaf
                 FullLeaf.Items.RemoveAt(half);
             }
+            
+            //Insert new index item and leaf
+            MainStack.Peek().Insert(newIndexValue, NewLeaf);
 
-            Index Temp = new Index(MainStack.Peek());
-
-            MainStack.Peek().Items.Add(newIndexValue);
-            MainStack.Peek().LeafList.Add(NewLeaf);
+            //Reset Root
+            Root = new Index(MainStack.Peek());
 
             //Split Index if needed
             if (MainStack.Peek().Items.Count > NodeSize)
@@ -295,6 +297,7 @@ namespace Project5
                 Index RightIndex = new Index(NodeSize);
                 List<Leaf> RightLeaves = new List<Leaf>();
                 int half = CurrentIndex.Items.Count / 2;
+                int newIndexItem = CurrentIndex.Items[half];
 
                 //Values to handle being the first root or
                 //a non-inner index
@@ -369,9 +372,15 @@ namespace Project5
                     int disposeCount = CurrentIndex.Items.Count;
                     for (int i = half; i < disposeCount; i++)
                     {
-                        CurrentIndex.Items.RemoveAt(i);
-                        CurrentIndex.IndexList.RemoveAt(i);
-                        CurrentIndex.LeafList.RemoveAt(i);
+                        CurrentIndex.Items.RemoveAt(half);
+                        if (isFirstRootSplit)
+                        {
+                            CurrentIndex.LeafList.RemoveAt(half);
+                        }
+                        else
+                        {
+                            CurrentIndex.IndexList.RemoveAt(i);
+                        }
                     }
 
                     //Set Left Index and reference to CenterIndex
@@ -379,10 +388,13 @@ namespace Project5
                     CenterIndex.IndexList.Add(LeftIndex);
                     CenterIndex.IndexList.Add(RightIndex);
 
-                    //Set Index Levels and add CenterIndex
+                    //Set and Add CenterIndex
+                    CenterIndex.Items.Add(newIndexItem);
+                    Root = new Index(CenterIndex);
+
+                    //Set Index Levels
                     IncrementAllTreeLevels();
                     CenterIndex.IndexLevel = 0;
-                    Root = new Index(CenterIndex);
                 }
 
                 #endregion
@@ -435,9 +447,15 @@ namespace Project5
                     int disposeCount = CurrentIndex.Items.Count;
                     for (int i = half; i < disposeCount; i++)
                     {
-                        CurrentIndex.Items.RemoveAt(i);
-                        CurrentIndex.IndexList.RemoveAt(i);
-                        CurrentIndex.LeafList.RemoveAt(i);
+                        CurrentIndex.Items.RemoveAt(half);
+                        if (needToGetLeaves)
+                        {
+                            CurrentIndex.LeafList.RemoveAt(half);
+                        }
+                        else
+                        {
+                            CurrentIndex.IndexList.RemoveAt(i);
+                        }
                     }
 
                     //Add CurrentIndex to the Index up the tree
@@ -502,15 +520,12 @@ namespace Project5
         #endregion
 
         #region Displaying Methods
+
         /// <summary>
-        /// Method for traversing the BTree by a given index
+        /// Method for traversing the BTree by a given index and putting
+        /// the BTree PreOrder in a list of strings
         /// </summary>
         /// <param name="SearchIndex">Represents the Index</param>
-
-
-        /* Commenting this out since the preorder traversal seems to be a display method in his program, so I wrote one that does that
-         * 
-         * 
         public void PreOrderTraversal(Index SearchIndex)
         {
             for (int i = 0; i < SearchIndex.IndexList.Count; i++)
@@ -525,13 +540,21 @@ namespace Project5
                 }
                 else
                 {
+                    //Display all Leaves
                     for (int j = 0; j < SearchIndex.LeafList.Count; j++)
                         PreOrder.Add(SearchIndex.LeafList[j].ToString());
                 }
             }
+            
+            //For a Root that has no indexes
+            if (SearchIndex.LeafList != null)
+            {
+                for (int k = 0; k < SearchIndex.LeafList.Count; k++)
+                    PreOrder.Add(SearchIndex.LeafList[k].ToString());
+            }
         }
 
-        */
+        
 
         /// <summary>
         /// Recursive method to look over the tree in pre-order and to display each node reached
@@ -578,12 +601,12 @@ namespace Project5
         public List<string> DisplayTree()
         {
             //Clear PreOrder
-            //PreOrder.Clear();
+            PreOrder.Clear();
             
-            ////Start PreOrder at Root
-            //PreOrder.Add(Root.ToString());
-            //PreOrderStack.Push(Root);
-            PreorderDisplay(Root);
+            //Start PreOrder at Root
+            PreOrder.Add(Root.ToString());
+            PreOrderTraversal(Root);
+            //PreorderDisplay(Root);
 
             //Return List of index strings
             return PreOrder;
