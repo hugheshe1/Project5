@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,16 +91,11 @@ namespace Project5
 
         #endregion
 
-
-        /// <summary>
-        /// ToString override for Leaf
-        /// </summary>
-        /// <returns>info, a string containing the relevant information pertaining to the leaf</returns>
         #region ToString
-        public override String ToString()
+        public override String ToString ( )
         {
             String info = "\n\nNode type: Leaf";
-            info += ("\nNumber of values: " + Items.Count + " (Node is " + ((Items.Count/NodeSize)*100) +
+            info += ("\nNumber of values: " + Items.Count + " (Node is " + (((double)Items.Count / (double)NodeSize) * 100) +
                     " percent full)");
             info += "\nValues: ";
 
