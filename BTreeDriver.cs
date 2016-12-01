@@ -4,9 +4,9 @@
 //	Course:			CSCI 2210-001 - Data Structures
 //	Authors:		Reed Jackson, reedejackson@gmail.com, jacksonre@etsu.edu
 //                  Haley Hughes, hugheshe1@etsu.edu
-//                  Other Author
+//                  John Burdette, burdettj@etsu.edu
 //	Created:		11/23/2016
-//	Copyright:		Reed Jackson, Haley Hughes, Author, 2016
+//	Copyright:		Reed Jackson, Haley Hughes, John Burdette, 2016
 
 using System;
 using System.Collections.Generic;
@@ -245,7 +245,7 @@ namespace Project5
             else
             {
                 totalAddAttempts = 0;
-                for (totalAdded = 0; totalAdded <= numOfTreeValues;) //ToDo: Meep 500
+                for (totalAdded = 0; totalAdded <= numOfTreeValues;)
                 {
                     success = tree.AddValue(rand.Next(1001));
 
@@ -253,16 +253,6 @@ namespace Project5
                     {
                         totalAdded++;
                         totalAddAttempts++;
-                        List<string> Output = tree.DisplayTree();
-                        WriteLine("===============================================");
-                        for (int i = 0; i < Output.Count; i++)
-                        {
-                            WriteLine($"\n{Output[i]}");
-                            WriteLine("===============================================");
-                            
-                        }
-                        WriteLine(tree.Stats());
-                        WriteLine($"Number of Values Added: {totalAdded}");
                     }
                     else
                     {

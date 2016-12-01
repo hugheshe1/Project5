@@ -3,10 +3,10 @@
 //	Description:	
 //	Course:			CSCI 2210-001 - Data Structures
 //	Authors:		Reed Jackson, reedejackson@gmail.com, jacksonre@etsu.edu
-//                  Other Author
-//                  Other Author
+//                  Haley Hughes, hugheshe1@etsu.edu
+//                  John Burdette, burdettj@etsu.edu
 //	Created:		11/23/2016
-//	Copyright:		Reed Jackson, Author, Author, 2016
+//	Copyright:		Reed Jackson, Haley Hughes, John Burdette, 2016
 
 using System;
 using System.Collections.Generic;
