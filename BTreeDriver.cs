@@ -32,7 +32,7 @@ namespace Project5
         private static BTree tree;
         private static int totalAdded = 0;
         private static int totalAddAttempts = 0;
-        private static int numOfTreeValues = 150;
+        private static int numOfTreeValues = 20;
 
         #endregion
 
@@ -253,6 +253,16 @@ namespace Project5
                     {
                         totalAdded++;
                         totalAddAttempts++;
+                        List<string> Output = tree.DisplayTree();
+                        WriteLine("===============================================");
+                        for (int i = 0; i < Output.Count; i++)
+                        {
+                            WriteLine($"\n{Output[i]}");
+                            WriteLine("===============================================");
+                            
+                        }
+                        WriteLine(tree.Stats());
+                        WriteLine($"Number of Values Added: {totalAdded}");
                     }
                     else
                     {

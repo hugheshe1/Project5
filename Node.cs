@@ -66,7 +66,8 @@ namespace Project5
         public override string ToString()
         {
             string result = "";
-            result += $"\nNumber of values: {Items.Count} Node is {String.Format("{0:0.##}", (((double)Items.Count / NodeSize) * 100))} percent full";
+            result += $"\nNumber of items: {Items.Count} out of {NodeSize}";
+            result += $"\nNode is {String.Format("{0:0.##}", (((double)Items.Count / NodeSize) * 100))}\u0025 full";
             result += "\nValues:\n";
             return result;
         }
